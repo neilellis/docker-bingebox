@@ -1,17 +1,14 @@
 FROM mono:latest
 MAINTAINER Martijn Riemers <martijn@riemers.me>
 
-RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FDA5DFFC && \
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FDA5DFFC && \
     echo "deb http://apt.sonarr.tv/ master main" | tee /etc/apt/sources.list.d/sonarr.list && \
     apt-get update -q && \
     apt-get install -qy nzbdrone && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-VOLUME /volumes/config
-VOLUME /volumes/completed
-VOLUME /volumes/media
+VOLUME ["/data"]
 
 EXPOSE 8989
 EXPOSE 9898

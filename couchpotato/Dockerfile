@@ -1,11 +1,12 @@
 FROM python:2.7
 MAINTAINER Martijn Riemers <martijn@riemers.me>
 
-ADD CouchPotatoServer /couchpotato/
+ADD . /
 
-VOLUME /volumes/couchpotato
+RUN chmod +x /start.sh
+
+VOLUME ["/data"]
 
 EXPOSE 5050
 
-ENTRYPOINT ["python", "/couchpotato/CouchPotato.py"]
-CMD ["--data_dir /volumes/couchpotato"]
+CMD ["/start.sh"]

@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -e
+
 function handle_signal {
   PID=$!
   echo "received signal. PID is ${PID}"
@@ -7,6 +9,7 @@ function handle_signal {
 
 trap "handle_signal" SIGINT SIGTERM SIGHUP
 
-echo "Starting Sonarr"
-mono /opt/NzbDrone/NzbDrone.exe --no-browser -data=/volumes/config/sonarr & wait
-echo "Stopping Sonarr"
+mkdir -p /root/.config
+[ ! -L /root/.config/NzbDrone ] && ln -s /data /root/.config/NzbDrone
+
+mono /opt/NzbDrone/NzbDrone.exe

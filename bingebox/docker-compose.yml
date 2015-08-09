@@ -1,12 +1,29 @@
 couchpotato:
   build: ../couchpotato
+
 sonarr:
   build: ../sonarr
+
+plex:
+  build: ../plex
+
+nzbget:
+  build: ../nzbget
+
+headphones:
+  build: ../headphones
+
+deluge:
+  build: ../deluge
+
 nginx:
   build: ../nginx
   ports:
    - "80:80"
-   - "443:433"
   links:
    - couchpotato
    - sonarr
+   - plex
+   - nzbget
+   - headphones
+   - deluge

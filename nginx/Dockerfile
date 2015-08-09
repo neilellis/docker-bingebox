@@ -1,5 +1,8 @@
-FROM ubuntu:latest
+FROM phusion/baseimage:latest
 MAINTAINER Martijn Riemers <martijn@riemers.me>
+
+ENV LANG en_US.UTF-8
+RUN locale-gen $LANG
 
 RUN add-apt-repository -y ppa:nginx/stable && \
     apt-get update -q && \
@@ -12,7 +15,10 @@ ADD sites-available/bingebox /etc/nginx/sites-available/
 RUN rm /etc/nginx/sites-enabled/default && \
     ln -s /etc/nginx/sites-available/bingebox /etc/nginx/sites-enabled/bingebox
 
-EXPOSE 80
-EXPOSE 443
+RUN mkdir /etc/service/nginx
+ADD start.sh /etc/service/nginx/run
+RUN chmod +x /etc/service/nginx/run
 
-CMD ["nginx"]
+EXPOSE 80
+
+CMD ["/sbin/my_init"]

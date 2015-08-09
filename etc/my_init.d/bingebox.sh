@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 ## TODO Detect the input given by the user e.g. run / update etc.
+## TODO Cleanup after docker-compose
 
 echo "=> Starting docker"
 wrapdocker > /dev/null 2>&1 &
@@ -15,4 +16,4 @@ for (( i=0; ; i++ )); do
     docker version > /dev/null 2>&1 && break
 done
 
-cd ../bingebox/ && docker-compose up
+cd /bingebox && docker-compose up

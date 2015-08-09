@@ -1,3 +1,6 @@
 [submodule "couchpotato/CouchPotatoServer"]
 	path = couchpotato/CouchPotatoServer
 	url = https://github.com/RuudBurger/CouchPotatoServer.git
+[submodule "headphones/headphones"]
+	path = headphones/headphones
+	url = https://github.com/rembo10/headphones.git

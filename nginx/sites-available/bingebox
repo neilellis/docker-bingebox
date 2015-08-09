@@ -1,31 +1,85 @@
+upstream plex {
+    server PLEX_IP:32400;
+}
+
+upstream sonarr {
+    server SONARR_IP:8989;
+}
+
+upstream couchpotato {
+    server COUCHPOTATO_IP:5050;
+}
+
+upstream headphones {
+    server HEADPHONES_IP:8181;
+}
+
+upstream nzbget {
+    server NZBGET_IP:6789;
+}
+
+upstream deluge {
+    server DELUGE_IP:8112;
+}
+
 server {
     listen 80;
-    listen 443 ssl;
 
-    keepalive_requests    10;
-    keepalive_timeout     60 60;
-    access_log /home/box/nginx/access.proxy.log;
-    error_log /home/box/nginx/error.proxy.log;
+    keepalive_requests 10;
+    keepalive_timeout 60 60;
 
     proxy_headers_hash_max_size 51200;
     proxy_headers_hash_bucket_size 6400;
 
+    ## TODO Add SSL Support
+
     location / {
         ## TODO Add index page with a listing of all the services
         ##   -> Maybe add status of the services?
+        ##   -> Let's keep it Plex for now
+
+        proxy_pass http://plex/web;
+        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
+        proxy_buffering off;
+        include /etc/nginx/proxy_params;
     }
 
     location /sonarr {
-        proxy_pass http://localhost:8989/;
+        proxy_pass http://sonarr;
         proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
         proxy_buffering off;
         include /etc/nginx/proxy_params;
     }
 
     location /couchpotato {
-        proxy_pass http://localhost:5050/;
+        proxy_pass http://couchpotato;
         proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
         proxy_buffering off;
         include /etc/nginx/proxy_params;
+    }
+
+    location /headphones {
+        proxy_pass http://headphones;
+        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
+        proxy_buffering off;
+        proxy_redirect http:// $scheme://;
+        include /etc/nginx/proxy_params;
+        proxy_set_header Authorization $http_authorization;
+        proxy_pass_header Authorization;
+    }
+
+    location /nzbget {
+        proxy_pass http://nzbget;
+        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
+        proxy_buffering off;
+        include /etc/nginx/proxy_params;
+    }
+
+    location /deluge {
+        proxy_pass http://deluge;
+        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
+        proxy_buffering off;
+        include /etc/nginx/proxy_params;
+        proxy_set_header X-Deluge-Base "/deluge/";
     }
 }
