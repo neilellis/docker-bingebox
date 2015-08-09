@@ -1,2 +1,12 @@
 couchpotato:
   build: ../couchpotato
+sonarr:
+  build: ../sonarr
+nginx:
+  build: ../nginx
+  ports:
+   - "80:80"
+   - "443:433"
+  links:
+   - couchpotato
+   - sonarr

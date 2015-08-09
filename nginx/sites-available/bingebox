@@ -1,0 +1,31 @@
+server {
+    listen 80;
+    listen 443 ssl;
+
+    keepalive_requests    10;
+    keepalive_timeout     60 60;
+    access_log /home/box/nginx/access.proxy.log;
+    error_log /home/box/nginx/error.proxy.log;
+
+    proxy_headers_hash_max_size 51200;
+    proxy_headers_hash_bucket_size 6400;
+
+    location / {
+        ## TODO Add index page with a listing of all the services
+        ##   -> Maybe add status of the services?
+    }
+
+    location /sonarr {
+        proxy_pass http://localhost:8989/;
+        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
+        proxy_buffering off;
+        include /etc/nginx/proxy_params;
+    }
+
+    location /couchpotato {
+        proxy_pass http://localhost:5050/;
+        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
+        proxy_buffering off;
+        include /etc/nginx/proxy_params;
+    }
+}

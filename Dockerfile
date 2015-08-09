@@ -7,4 +7,8 @@ RUN chmod +x /usr/local/bin/docker-compose
 
 ADD . /
 
+RUN chmod +x /bin/start.sh
+
+EXPOSE 80
+
 ENTRYPOINT ["/bin/start.sh"]
