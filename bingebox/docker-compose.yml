@@ -1,0 +1,2 @@
+couchpotato:
+  build: ../couchpotato
