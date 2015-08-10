@@ -39,11 +39,21 @@ test:
     - docker run -d -p 32400:32400 --name="plex" ipsq/docker-bingebox-plex
     - docker run -d -p 6789:6789 --name="nzbget" ipsq/docker-bingebox-nzbget
     - docker run -d -p 8989:8989 --name="sonarr" ipsq/docker-bingebox-sonarr
-    - docker run -d -p 80:80 --link="couchpotato:couchpotato" --link="deluge:deluge" --link="headphones:headphones" --link="plex:plex" --link="nzbget:nzbget" --link="sonarr:sonarr" ipsq/docker-bingebox-nginx
-    - sleep 60 && curl --retry 10 --retry-delay 5 -v http://localhost:80
+    - docker run -d -p 80:80 --link="couchpotato:couchpotato" --link="deluge:deluge" --link="headphones:headphones" --link="plex:plex" --link="nzbget:nzbget" --link="sonarr:sonarr" ipsq/docker-bingebox-nginx && sleep 60
+    - curl --retry 10 --retry-delay 5 -v http://localhost:80
+    - curl --retry 10 --retry-delay 5 -v http://localhost:80/sonarr
+    - curl --retry 10 --retry-delay 5 -v http://localhost:80/couchpotato
+    - curl --retry 10 --retry-delay 5 -v http://localhost:80/headphones
+    - curl --retry 10 --retry-delay 5 -v http://localhost:80/nzbget
+    - curl --retry 10 --retry-delay 5 -v http://localhost:80/deluge
     - docker kill $(docker ps -q)
-    - docker run -d -p 80:80 ipsq/docker-bingebox
-    - sleep 120 && curl --retry 10 --retry-delay 5 -v http://localhost:80
+    - docker run -d -p 80:80 ipsq/docker-bingebox && sleep 120
+    - curl --retry 10 --retry-delay 5 -v http://localhost:80
+    - curl --retry 10 --retry-delay 5 -v http://localhost:80/sonarr
+    - curl --retry 10 --retry-delay 5 -v http://localhost:80/couchpotato
+    - curl --retry 10 --retry-delay 5 -v http://localhost:80/headphones
+    - curl --retry 10 --retry-delay 5 -v http://localhost:80/nzbget
+    - curl --retry 10 --retry-delay 5 -v http://localhost:80/deluge
     - docker kill $(docker ps -q)
 
 deployment:
