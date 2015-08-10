@@ -47,7 +47,7 @@ test:
     - curl --retry 10 --retry-delay 5 -v http://localhost:80/nzbget
     - curl --retry 10 --retry-delay 5 -v http://localhost:80/deluge
     - docker kill $(docker ps -q)
-    - docker run -d -p 80:80 ipsq/docker-bingebox && sleep 120
+    - docker run -d -p 80:80 --privileged ipsq/docker-bingebox && sleep 120
     - curl --retry 10 --retry-delay 5 -v http://localhost:80
     - curl --retry 10 --retry-delay 5 -v http://localhost:80/sonarr
     - curl --retry 10 --retry-delay 5 -v http://localhost:80/couchpotato
