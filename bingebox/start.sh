@@ -1,3 +1,2 @@
 #!/usr/bin/env bash
-wrapdocker
-docker-compose up
+sudo wrapdocker && cd /bingebox && docker-compose up
