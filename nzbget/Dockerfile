@@ -6,8 +6,7 @@ RUN locale-gen $LANG
 
 ENV VERSION 15.0
 
-RUN sed -i 's/restricted$/restricted multiverse/' /etc/apt/sources.list && \
-    apt-get update -q && \
+RUN apt-get update -q && \
     apt-get install -qy build-essential pkg-config libxml2-dev libncurses5-dev libsigc++-2.0-dev libpar2-dev libssl-dev p7zip unrar && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
