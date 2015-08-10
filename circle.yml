@@ -1,0 +1,48 @@
+machine:
+  services:
+    - docker
+
+dependencies:
+  override:
+    - docker info
+    - docker build -t ipsq/docker-bingebox-couchpotato /couchpotato
+    - docker build -t ipsq/docker-bingebox-deluge /deluge
+    - docker build -t ipsq/docker-bingebox-headphones /headphones
+    - docker build -t ipsq/docker-bingebox-plex /plex
+    - docker build -t ipsq/docker-bingebox-nginx /nginx
+    - docker build -t ipsq/docker-bingebox-nzbget /nzbget
+    - docker build -t ipsq/docker-bingebox-sonarr /sonarr
+    - docker build -t ipsq/docker-bingebox .
+
+test:
+  override:
+    - docker run -d -p 5050:5050 ipsq/docker-bingebox-couchpotato; sleep 10
+    - curl --retry 10 --retry-delay 5 -v http://localhost:5050
+    - docker run -d -p 8112:8112 ipsq/docker-bingebox-deluge; sleep 10
+    - curl --retry 10 --retry-delay 5 -v http://localhost:8112
+    - docker run -d -p 8181:8181 ipsq/docker-bingebox-headphones; sleep 10
+    - curl --retry 10 --retry-delay 5 -v http://localhost:8181
+    - docker run -d -p 32400:32400 ipsq/docker-bingebox-plex; sleep 10
+    - curl --retry 10 --retry-delay 5 -v http://localhost:32400
+    - docker run -d -p 80:80 ipsq/docker-bingebox-nginx; sleep 10
+    - curl --retry 10 --retry-delay 5 -v http://localhost:80
+    - docker run -d -p 6789:6789 ipsq/docker-bingebox-nzbget; sleep 10
+    - curl --retry 10 --retry-delay 5 -v http://localhost:6789
+    - docker run -d -p 8989:8989 ipsq/docker-bingebox-sonarr; sleep 10
+    - curl --retry 10 --retry-delay 5 -v http://localhost:8989
+    - docker run -d -p 80:80 ipsq/docker-bingebox; sleep 10
+    - curl --retry 10 --retry-delay 5 -v http://localhost:80
+
+deployment:
+  hub:
+    branch: master
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push ipsq/docker-bingebox-couchpotato
+      - docker push ipsq/docker-bingebox-deluge
+      - docker push ipsq/docker-bingebox-headphones
+      - docker push ipsq/docker-bingebox-plex
+      - docker push ipsq/docker-bingebox-nginx
+      - docker push ipsq/docker-bingebox-nzbget
+      - docker push ipsq/docker-bingebox-sonarr
+      - docker push ipsq/docker-bingebox

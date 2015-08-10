@@ -1,5 +1,5 @@
 bingebox:
-  build: .
+  image: ipsq/docker-bingebox:latest
   privileged: true
   ports:
    - "80:80"

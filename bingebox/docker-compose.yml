@@ -1,23 +1,23 @@
 couchpotato:
-  build: ../couchpotato
+  image: ipsq/docker-bingebox-couchpotato:latest
 
 sonarr:
-  build: ../sonarr
+  image: ipsq/docker-sonarr-couchpotato:latest
 
 plex:
-  build: ../plex
+  image: ipsq/docker-plex-couchpotato:latest
 
 nzbget:
-  build: ../nzbget
+  image: ipsq/docker-nzbget-couchpotato:latest
 
 headphones:
-  build: ../headphones
+  image: ipsq/docker-headphones-couchpotato:latest
 
 deluge:
-  build: ../deluge
+  image: ipsq/docker-deluge-couchpotato:latest
 
 nginx:
-  build: ../nginx
+  image: ipsq/docker-nginx-couchpotato:latest
   ports:
    - "80:80"
   links:
