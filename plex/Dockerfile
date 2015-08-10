@@ -10,7 +10,7 @@ RUN apt-get update -q && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN curl -L $(curl -Ls https://plex.tv/downloads | grep -o '[^"'"'"']*amd64.deb' | grep -v binaries) -o plexmediaserver.deb && \
+RUN curl -L --retry 10 $(curl -Ls --retry 10 https://plex.tv/downloads | grep -o '[^"'"'"']*amd64.deb' | grep -v binaries) -o plexmediaserver.deb && \
     dpkg -i plexmediaserver.deb && \
     rm -f plexmediaserver.deb
 
