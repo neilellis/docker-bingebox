@@ -26,7 +26,7 @@ test:
     - timeout --preserve-status 20s docker run -p 80:80 ipsq/docker-bingebox-nginx
     - timeout --preserve-status 20s docker run -p 6789:6789 ipsq/docker-bingebox-nzbget
     - timeout --preserve-status 20s docker run -p 8989:8989 ipsq/docker-bingebox-sonarr
-    - timeout --preserve-status 120s docker run -p 80:80 --privileged ipsq/docker-bingebox
+    - timeout --preserve-status 120s docker run -p 80:80 -v /run/docker.sock:/var/run/docker.sock --privileged ipsq/docker-bingebox
     - ID=$(docker run -d -p 5050:5050 ipsq/docker-bingebox-couchpotato); sleep 60 && curl --retry 10 --retry-delay 5 -v http://localhost:5050; CODE=$?; docker kill $ID; exit $CODE
     - ID=$(docker run -d -p 8112:8112 ipsq/docker-bingebox-deluge); sleep 20 && curl --retry 10 --retry-delay 5 -v http://localhost:8112; CODE=$?; docker kill $ID; exit $CODE
     - ID=$(docker run -d -p 8181:8181 ipsq/docker-bingebox-headphones); sleep 60 && curl --retry 10 --retry-delay 5 -v http://localhost:8181/home; CODE=$?; docker kill $ID; exit $CODE
@@ -47,7 +47,7 @@ test:
     - curl --retry 10 --retry-delay 5 -v http://localhost:80/nzbget
     - curl --retry 10 --retry-delay 5 -v http://localhost:80/deluge
     - docker kill $(docker ps -q)
-    - docker run -d -p 80:80 -v /var/run/docker.sock:/var/run/docker.sock --privileged ipsq/docker-bingebox && sleep 120
+    - docker run -d -p 80:80 -v /run/docker.sock:/var/run/docker.sock --privileged ipsq/docker-bingebox && sleep 120
     - curl --retry 10 --retry-delay 5 -v http://localhost:80
     - curl --retry 10 --retry-delay 5 -v http://localhost:80/sonarr
     - curl --retry 10 --retry-delay 5 -v http://localhost:80/couchpotato
