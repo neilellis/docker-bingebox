@@ -29,7 +29,7 @@ test:
     - timeout --preserve-status 120s docker run -p 80:80 --privileged ipsq/docker-bingebox
     - ID=$(docker run -d -p 5050:5050 ipsq/docker-bingebox-couchpotato); sleep 60 && curl --retry 10 --retry-delay 5 -v http://localhost:5050; CODE=$?; docker kill $ID; exit $CODE
     - ID=$(docker run -d -p 8112:8112 ipsq/docker-bingebox-deluge); sleep 20 && curl --retry 10 --retry-delay 5 -v http://localhost:8112; CODE=$?; docker kill $ID; exit $CODE
-    - ID=$(docker run -d -p 8181:8181 ipsq/docker-bingebox-headphones); sleep 60 && curl --retry 10 --retry-delay 5 -v http://localhost:8181; CODE=$?; docker kill $ID; exit $CODE
+    - ID=$(docker run -d -p 8181:8181 ipsq/docker-bingebox-headphones); sleep 60 && curl --retry 10 --retry-delay 5 -v http://localhost:8181/home; CODE=$?; docker kill $ID; exit $CODE
     - ID=$(docker run -d -p 32400:32400 ipsq/docker-bingebox-plex); sleep 20 && curl --retry 10 --retry-delay 5 -v http://localhost:32400/web; CODE=$?; docker kill $ID; exit $CODE
     - ID=$(docker run -d -p 6789:6789 ipsq/docker-bingebox-nzbget); sleep 20 && curl --retry 10 --retry-delay 5 -v http://localhost:6789; CODE=$?; docker kill $ID; exit $CODE
     - ID=$(docker run -d -p 8989:8989 ipsq/docker-bingebox-sonarr); sleep 20 && curl --retry 10 --retry-delay 5 -v http://localhost:8989; CODE=$?; docker kill $ID; exit $CODE
@@ -43,7 +43,7 @@ test:
     - curl --retry 10 --retry-delay 5 -v http://localhost:80
     - curl --retry 10 --retry-delay 5 -v http://localhost:80/sonarr
     - curl --retry 10 --retry-delay 5 -v http://localhost:80/couchpotato
-    - curl --retry 10 --retry-delay 5 -v http://localhost:80/headphones
+    - curl --retry 10 --retry-delay 5 -v http://localhost:80/headphones/home
     - curl --retry 10 --retry-delay 5 -v http://localhost:80/nzbget
     - curl --retry 10 --retry-delay 5 -v http://localhost:80/deluge
     - docker kill $(docker ps -q)
@@ -51,7 +51,7 @@ test:
     - curl --retry 10 --retry-delay 5 -v http://localhost:80
     - curl --retry 10 --retry-delay 5 -v http://localhost:80/sonarr
     - curl --retry 10 --retry-delay 5 -v http://localhost:80/couchpotato
-    - curl --retry 10 --retry-delay 5 -v http://localhost:80/headphones
+    - curl --retry 10 --retry-delay 5 -v http://localhost:80/headphones/home
     - curl --retry 10 --retry-delay 5 -v http://localhost:80/nzbget
     - curl --retry 10 --retry-delay 5 -v http://localhost:80/deluge
     - docker kill $(docker ps -q)
@@ -61,11 +61,4 @@ deployment:
     branch: master
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - docker push ipsq/docker-bingebox-couchpotato
-      - docker push ipsq/docker-bingebox-deluge
-      - docker push ipsq/docker-bingebox-headphones
-      - docker push ipsq/docker-bingebox-plex
-      - docker push ipsq/docker-bingebox-nginx
-      - docker push ipsq/docker-bingebox-nzbget
-      - docker push ipsq/docker-bingebox-sonarr
       - docker push ipsq/docker-bingebox

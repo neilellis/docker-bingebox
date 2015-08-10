@@ -6,7 +6,7 @@ RUN locale-gen $LANG
 
 RUN add-apt-repository -y ppa:nginx/stable && \
     apt-get update -q && \
-    apt-get install -qy nginx && \
+    apt-get install -qy nginx apache2-utils && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     echo "\ndaemon off;" >> /etc/nginx/nginx.conf && \
     chown -R www-data:www-data /var/lib/nginx

@@ -2,10 +2,6 @@ upstream plex {
     server PLEX_IP:32400;
 }
 
-upstream sonarr {
-    server SONARR_IP:8989;
-}
-
 upstream couchpotato {
     server COUCHPOTATO_IP:5050;
 }
@@ -20,6 +16,10 @@ upstream nzbget {
 
 upstream deluge {
     server DELUGE_IP:8112;
+}
+
+upstream sonarr {
+    server SONARR_IP:8989;
 }
 
 server {
@@ -42,13 +42,8 @@ server {
         proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
         proxy_buffering off;
         include /etc/nginx/proxy_params;
-    }
-
-    location /sonarr {
-        proxy_pass http://sonarr;
-        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
-        proxy_buffering off;
-        include /etc/nginx/proxy_params;
+        auth_basic "Restricted";
+        auth_basic_user_file /etc/nginx/plex/.htpasswd;
     }
 
     location /couchpotato {
@@ -73,6 +68,8 @@ server {
         proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
         proxy_buffering off;
         include /etc/nginx/proxy_params;
+        proxy_set_header Authorization $http_authorization;
+        proxy_pass_header Authorization;
     }
 
     location /deluge {
@@ -80,6 +77,14 @@ server {
         proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
         proxy_buffering off;
         include /etc/nginx/proxy_params;
-        proxy_set_header X-Deluge-Base "/deluge/";
+    }
+
+    location /sonarr {
+        proxy_pass http://sonarr;
+        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
+        proxy_buffering off;
+        include /etc/nginx/proxy_params;
+        auth_basic "Restricted";
+        auth_basic_user_file /etc/nginx/sonarr/.htpasswd;
     }
 }

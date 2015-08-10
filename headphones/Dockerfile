@@ -7,6 +7,8 @@ RUN chmod +x /start.sh
 
 VOLUME ["/data"]
 
+ADD config.ini /tmp/config.ini
+
 EXPOSE 8181
 
 CMD ["/start.sh"]

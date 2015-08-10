@@ -11,9 +11,10 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FDA5DFFC && \
 VOLUME ["/data"]
 
 EXPOSE 8989
-EXPOSE 9898
 
 ADD start.sh /
 RUN chmod +x start.sh
+
+ADD config.xml /tmp/config.xml
 
 ENTRYPOINT ["/start.sh"]

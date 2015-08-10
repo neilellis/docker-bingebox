@@ -26,7 +26,3 @@ This Docker image makes use of Docker-in-Docker for improved encapsulation of th
 
 ### Reverse Proxy
 - Nginx
-
-### Server Management
-- OpenSSH
-- ProFTPd

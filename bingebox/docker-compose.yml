@@ -1,23 +1,44 @@
 couchpotato:
-  image: ipsq/docker-bingebox-couchpotato:latest
-
-sonarr:
-  image: ipsq/docker-sonarr-couchpotato:latest
-
-plex:
-  image: ipsq/docker-plex-couchpotato:latest
-
-nzbget:
-  image: ipsq/docker-nzbget-couchpotato:latest
-
-headphones:
-  image: ipsq/docker-headphones-couchpotato:latest
+  build: ../couchpotato
+  environment:
+   - COUCHPOTATO_PASSWORD=${COUCHPOTATO_PASSWORD}
+  links:
+   - nzbget
+   - deluge
 
 deluge:
-  image: ipsq/docker-deluge-couchpotato:latest
+  build: ../deluge
+  environment:
+   - DELUGE_PASSWORD=${DELUGE_PASSWORD}
+
+headphones:
+  build: ../headphones
+  environment:
+   - HEADPHONES_PASSWORD=${HEADPHONES_PASSWORD}
+  links:
+   - nzbget
+   - deluge
+
+nzbget:
+  build: ../nzbget
+  environment:
+   - NZBGET_PASSWORD=${NZBGET_PASSWORD}
+
+plex:
+  build: ../plex
+  environment:
+     - PLEX_PASSWORD=${PLEX_PASSWORD}
+
+sonarr:
+  build: ../sonarr
+  environment:
+   - SONARR_PASSWORD=${SONARR_PASSWORD}
+  links:
+   - nzbget
+   - deluge
 
 nginx:
-  image: ipsq/docker-nginx-couchpotato:latest
+  build: ../nginx
   ports:
    - "80:80"
   links:
