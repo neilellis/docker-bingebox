@@ -3,4 +3,4 @@ set -e
 
 git clone https://github.com/RuudBurger/CouchPotatoServer.git /CouchPotatoServer
 
-python /CouchPotatoServer/CouchPotato.py --data_dir "/data"
+python /CouchPotatoServer/CouchPotato.py --data_dir "/data" --console_log --debug
