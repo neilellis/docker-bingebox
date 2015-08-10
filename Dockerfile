@@ -17,9 +17,7 @@ RUN apt-get update -q && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN curl -sSL -O https://get.docker.com/builds/Linux/x86_64/docker-1.7.1 && \
-    chmod +x docker-1.7.1 && \
-    mv docker-1.7.1 /usr/local/bin/docker
+RUN curl -sSL  https://get.docker.com | sh
 
 ## Installing Docker Compose
 ADD https://github.com/docker/compose/releases/download/1.3.3/docker-compose-linux-x86_64 /usr/local/bin/docker-compose
