@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+
+export DOCKER_HOST=unix:///tmp/docker.sock
+
 if [[ "$DELUGE_PASSWORD" == "**GENERATE**" ]]
 then
     export DELUGE_PASSWORD=$(pwgen 16 1)
