@@ -4,8 +4,8 @@ machine:
 
 dependencies:
   pre:
-    - sudo apt-get update -qy
-    - sudo apt-get upgrade -qy
+    - sudo apt-get update -q
+    - sudo apt-get install -qy coreutils
   override:
     - docker info
     - docker build -t ipsq/docker-bingebox-couchpotato ./couchpotato/
