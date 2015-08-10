@@ -3,6 +3,8 @@ machine:
     - docker
 
 dependencies:
+  pre:
+      - sudo apt-get update -q; sudo apt-get install -qy timeout
   override:
     - docker info
     - docker build -t ipsq/docker-bingebox-couchpotato ./couchpotato/
