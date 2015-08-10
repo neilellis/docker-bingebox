@@ -13,7 +13,7 @@ ENV PLEX_PASSWORD **GENERATE**
 ## TODO Expose all necessary ports
 
 RUN apt-get update -q && \
-    apt-get install -qy curl && \
+    apt-get install -qy curl pwgen && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 

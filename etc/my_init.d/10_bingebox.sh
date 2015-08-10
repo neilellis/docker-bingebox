@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 if [[ "$DELUGE_PASSWORD" == "**GENERATE**" ]]
 then
-    export DELUGE_PASSWORD=$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-16})
+    export DELUGE_PASSWORD=$(pwgen 16 1)
 fi
 
 echo "*******************************************"
@@ -11,7 +11,7 @@ echo "*******************************************"
 
 if [[ "$NZBGET_PASSWORD" == "**GENERATE**" ]]
 then
-    export NZBGET_PASSWORD=$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-16})
+    export NZBGET_PASSWORD=$(pwgen 16 1)
 fi
 
 echo "*******************************************"
@@ -21,7 +21,7 @@ echo "*******************************************"
 
 if [[ "$SONARR_PASSWORD" == "**GENERATE**" ]]
 then
-    export SONARR_PASSWORD=$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-16})
+    export SONARR_PASSWORD=$(pwgen 16 1)
 fi
 
 echo "*******************************************"
@@ -31,7 +31,7 @@ echo "*******************************************"
 
 if [[ "$COUCHPOTATO_PASSWORD" == "**GENERATE**" ]]
 then
-    export COUCHPOTATO_PASSWORD=$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-16})
+    export COUCHPOTATO_PASSWORD=$(pwgen 16 1)
 fi
 
 echo "*******************************************"
@@ -41,7 +41,7 @@ echo "*******************************************"
 
 if [[ "$HEADPHONES_PASSWORD" == "**GENERATE**" ]]
 then
-    export HEADPHONES_PASSWORD=$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-16})
+    export HEADPHONES_PASSWORD=$(pwgen 16 1)
 fi
 
 echo "*******************************************"
@@ -51,7 +51,7 @@ echo "*******************************************"
 
 if [[ "$PLEX_PASSWORD" == "**GENERATE**" ]]
 then
-    export PLEX_PASSWORD=$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-16})
+    export PLEX_PASSWORD=$(pwgen 16 1)
 fi
 
 echo "*******************************************"
