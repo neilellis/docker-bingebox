@@ -26,7 +26,7 @@ ADD https://github.com/docker/compose/releases/download/1.3.3/docker-compose-lin
 RUN chmod +x /usr/local/bin/docker-compose
 
 ADD . /
-RUN chmod +x /etc/my_init.d/bingebox.sh
+RUN chmod +x /etc/my_init.d/10_bingebox.sh
 
 EXPOSE 80
 
