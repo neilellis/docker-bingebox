@@ -16,14 +16,22 @@ dependencies:
 
 test:
   override:
-    - docker kill $(docker ps -q); docker run -d -p 5050:5050 ipsq/docker-bingebox-couchpotato && sleep 10 && curl --retry 10 --retry-delay 5 -v http://localhost:5050
-    - docker kill $(docker ps -q); docker run -d -p 8112:8112 ipsq/docker-bingebox-deluge && sleep 10 && curl --retry 10 --retry-delay 5 -v http://localhost:8112
-    - docker kill $(docker ps -q); docker run -d -p 8181:8181 ipsq/docker-bingebox-headphones && sleep 10 && curl --retry 10 --retry-delay 5 -v http://localhost:8181
-    - docker kill $(docker ps -q); docker run -d -p 32400:32400 ipsq/docker-bingebox-plex && sleep 10 && curl --retry 10 --retry-delay 5 -v http://localhost:32400
-    - docker kill $(docker ps -q); docker run -d -p 80:80 ipsq/docker-bingebox-nginx && sleep 10 && curl --retry 10 --retry-delay 5 -v http://localhost:80
-    - docker kill $(docker ps -q); docker run -d -p 6789:6789 ipsq/docker-bingebox-nzbget && sleep 10 && curl --retry 10 --retry-delay 5 -v http://localhost:6789
-    - docker kill $(docker ps -q); docker run -d -p 8989:8989 ipsq/docker-bingebox-sonarr && sleep 10 && curl --retry 10 --retry-delay 5 -v http://localhost:8989
-    - docker kill $(docker ps -q); docker run -d -p 80:80 ipsq/docker-bingebox && sleep 10 && curl --retry 10 --retry-delay 5 -v http://localhost:80
+    - timeout 20s "docker run -p 5050:5050 ipsq/docker-bingebox-couchpotato" # Test if it Runs without error
+    - timeout 20s "docker run -p 8112:8112 ipsq/docker-bingebox-deluge" # Test if it Runs without error
+    - timeout 20s "docker run -p 8181:8181 ipsq/docker-bingebox-headphones" # Test if it Runs without error
+    - timeout 20s "docker run -p 32400:32400 ipsq/docker-bingebox-plex" # Test if it Runs without error
+    - timeout 20s "docker run -p 80:80 ipsq/docker-bingebox-nginx" # Test if it Runs without error
+    - timeout 20s "docker run -p 6789:6789 ipsq/docker-bingebox-nzbget" # Test if it Runs without error
+    - timeout 20s "docker run -p 8989:8989 ipsq/docker-bingebox-sonarr" # Test if it Runs without error
+    - timeout 20s "docker run -p 80:80 ipsq/docker-bingebox" # Test if it Runs without error
+    - ID=$(docker run -d -p 5050:5050 ipsq/docker-bingebox-couchpotato); sleep 20 && curl --retry 10 --retry-delay 5 -v http://localhost:5050; docker kill $ID
+    - ID=$(docker run -d -p 8112:8112 ipsq/docker-bingebox-deluge); sleep 20 && curl --retry 10 --retry-delay 5 -v http://localhost:8112; docker kill $ID
+    - ID=$(docker run -d -p 8181:8181 ipsq/docker-bingebox-headphones); sleep 20 && curl --retry 10 --retry-delay 5 -v http://localhost:8181; docker kill $ID
+    - ID=$(docker run -d -p 32400:32400 ipsq/docker-bingebox-plex); sleep 20 && curl --retry 10 --retry-delay 5 -v http://localhost:32400; docker kill $ID
+    - ID=$(docker run -d -p 80:80 ipsq/docker-bingebox-nginx); sleep 20 && curl --retry 10 --retry-delay 5 -v http://localhost:80; docker kill $ID
+    - ID=$(docker run -d -p 6789:6789 ipsq/docker-bingebox-nzbget); sleep 20 && curl --retry 10 --retry-delay 5 -v http://localhost:6789; docker kill $ID
+    - ID=$(docker run -d -p 8989:8989 ipsq/docker-bingebox-sonarr); sleep 20 && curl --retry 10 --retry-delay 5 -v http://localhost:8989; docker kill $ID
+    - ID=$(docker run -d -p 80:80 ipsq/docker-bingebox); sleep 20 && curl --retry 10 --retry-delay 5 -v http://localhost:80; docker kill $ID
 
 deployment:
   hub:
