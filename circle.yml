@@ -5,14 +5,22 @@ machine:
 dependencies:
   override:
     - docker info
-    - docker build -t ipsq/docker-bingebox-couchpotato ./couchpotato/
-    - docker build -t ipsq/docker-bingebox-deluge ./deluge/
-    - docker build -t ipsq/docker-bingebox-headphones ./headphones/
-    - docker build -t ipsq/docker-bingebox-plex ./plex/
-    - docker build -t ipsq/docker-bingebox-nginx ./nginx/
-    - docker build -t ipsq/docker-bingebox-nzbget ./nzbget/
-    - docker build -t ipsq/docker-bingebox-sonarr ./sonarr/
-    - docker build -t ipsq/docker-bingebox .
+    - if [[ 0 % $CIRCLE_NODE_TOTAL + 1 == $CIRCLE_NODE_INDEX ]]; then docker build -t ipsq/docker-bingebox-couchpotato ./couchpotato/; fi:
+      parallel: true
+    - if [[ 1 % $CIRCLE_NODE_TOTAL + 1 == $CIRCLE_NODE_INDEX ]]; then docker build -t ipsq/docker-bingebox-deluge ./deluge/; fi:
+      parallel: true
+    - if [[ 2 % $CIRCLE_NODE_TOTAL + 1 == $CIRCLE_NODE_INDEX ]]; then docker build -t ipsq/docker-bingebox-headphones ./headphones/; fi:
+      parallel: true
+    - if [[ 3 % $CIRCLE_NODE_TOTAL + 1 == $CIRCLE_NODE_INDEX ]]; then docker build -t ipsq/docker-bingebox-plex ./plex/; fi:
+      parallel: true
+    - if [[ 4 % $CIRCLE_NODE_TOTAL + 1 == $CIRCLE_NODE_INDEX ]]; then docker build -t ipsq/docker-bingebox-nginx ./nginx/; fi:
+      parallel: true
+    - if [[ 5 % $CIRCLE_NODE_TOTAL + 1 == $CIRCLE_NODE_INDEX ]]; then docker build -t ipsq/docker-bingebox-nzbget ./nzbget/; fi:
+      parallel: true
+    - if [[ 6 % $CIRCLE_NODE_TOTAL + 1 == $CIRCLE_NODE_INDEX ]]; then docker build -t ipsq/docker-bingebox-sonarr ./sonarr/; fi:
+      parallel: true
+    - if [[ 7 % $CIRCLE_NODE_TOTAL + 1 == $CIRCLE_NODE_INDEX ]]; then docker build -t ipsq/docker-bingebox .; fi:
+      parallel: true
 
 test:
   override:
