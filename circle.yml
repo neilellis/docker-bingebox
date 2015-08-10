@@ -5,8 +5,14 @@ machine:
 dependencies:
   override:
     - docker info
-    - sh circleci-parallel.sh:
-      parallel: true
+    - docker build -t ipsq/docker-bingebox-couchpotato ./couchpotato/
+    - docker build -t ipsq/docker-bingebox-deluge ./deluge/
+    - docker build -t ipsq/docker-bingebox-headphones ./headphones/
+    - docker build -t ipsq/docker-bingebox-plex ./plex/
+    - docker build -t ipsq/docker-bingebox-nginx ./nginx/
+    - docker build -t ipsq/docker-bingebox-nzbget ./nzbget/
+    - docker build -t ipsq/docker-bingebox-sonarr ./sonarr/
+    - docker build -t ipsq/docker-bingebox .
 
 test:
   override:
