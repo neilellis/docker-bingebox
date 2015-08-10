@@ -4,7 +4,8 @@ machine:
 
 dependencies:
   pre:
-      - sudo apt-get update -q; sudo apt-get install -qy timeout
+    - sudo apt-get update -qy
+    - sudo apt-get upgrade -qy
   override:
     - docker info
     - docker build -t ipsq/docker-bingebox-couchpotato ./couchpotato/
@@ -18,14 +19,14 @@ dependencies:
 
 test:
   override:
-    - timeout --preserve-status 20s docker run -p 5050:5050 ipsq/docker-bingebox-couchpotato # Test if it Runs without error
-    - timeout --preserve-status 20s docker run -p 8112:8112 ipsq/docker-bingebox-deluge # Test if it Runs without error
-    - timeout --preserve-status 20s docker run -p 8181:8181 ipsq/docker-bingebox-headphones # Test if it Runs without error
-    - timeout --preserve-status 20s docker run -p 32400:32400 ipsq/docker-bingebox-plex # Test if it Runs without error
-    - timeout --preserve-status 20s docker run -p 80:80 ipsq/docker-bingebox-nginx # Test if it Runs without error
-    - timeout --preserve-status 20s docker run -p 6789:6789 ipsq/docker-bingebox-nzbget # Test if it Runs without error
-    - timeout --preserve-status 20s docker run -p 8989:8989 ipsq/docker-bingebox-sonarr # Test if it Runs without error
-    - timeout --preserve-status 20s docker run -p 80:80 ipsq/docker-bingebox # Test if it Runs without error
+    - timeout --preserve-status 20s docker run -p 5050:5050 ipsq/docker-bingebox-couchpotato
+    - timeout --preserve-status 20s docker run -p 8112:8112 ipsq/docker-bingebox-deluge
+    - timeout --preserve-status 20s docker run -p 8181:8181 ipsq/docker-bingebox-headphones
+    - timeout --preserve-status 20s docker run -p 32400:32400 ipsq/docker-bingebox-plex
+    - timeout --preserve-status 20s docker run -p 80:80 ipsq/docker-bingebox-nginx
+    - timeout --preserve-status 20s docker run -p 6789:6789 ipsq/docker-bingebox-nzbget
+    - timeout --preserve-status 20s docker run -p 8989:8989 ipsq/docker-bingebox-sonarr
+    - timeout --preserve-status 20s docker run -p 80:80 ipsq/docker-bingebox
     - ID=$(docker run -d -p 5050:5050 ipsq/docker-bingebox-couchpotato); sleep 20 && curl --retry 10 --retry-delay 5 -v http://localhost:5050; CODE=$?; docker kill $ID; exit $CODE
     - ID=$(docker run -d -p 8112:8112 ipsq/docker-bingebox-deluge); sleep 20 && curl --retry 10 --retry-delay 5 -v http://localhost:8112; CODE=$?; docker kill $ID; exit $CODE
     - ID=$(docker run -d -p 8181:8181 ipsq/docker-bingebox-headphones); sleep 20 && curl --retry 10 --retry-delay 5 -v http://localhost:8181; CODE=$?; docker kill $ID; exit $CODE
@@ -38,7 +39,7 @@ test:
     - docker run -d -p 32400:32400 --name="plex" ipsq/docker-bingebox-plex
     - docker run -d -p 6789:6789 --name="nzbget" ipsq/docker-bingebox-nzbget
     - docker run -d -p 8989:8989 --name="sonarr" ipsq/docker-bingebox-sonarr
-    - docker run -d -p 80:80 --link="couchpotato" --link="deluge" --link="headphones" --link="plex" --link="nzbget" --link="sonarr" ipsq/docker-bingebox-nginx
+    - docker run -d -p 80:80 --link="couchpotato:couchpotato" --link="deluge:deluge" --link="headphones:headphones" --link="plex:plex" --link="nzbget:nzbget" --link="sonarr:sonarr" ipsq/docker-bingebox-nginx
     - sleep 20 && curl --retry 10 --retry-delay 5 -v http://localhost:80
     - docker kill $(docker ps -q)
     - docker run -d -p 80:80 ipsq/docker-bingebox
